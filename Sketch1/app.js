@@ -111,14 +111,15 @@ setSize.addEventListener('click', () => {
 // }
 
 
-const squareGen = (num = 20) => {
+const squareGen = (num = 50) => {
 
     num = parseInt(num);
     currentSize.innerHTML = `${num}`
     if (num > 100 || !Number.isInteger(num)) {
-        num = 20;
+        num = 50;
         alert('Please enter a valid number below 100');
         currentSize.innerHTML = `${num}`;
+        sizeInp.value = '';
     }
 
     for (let i = 0; i < num; i++) {
@@ -199,23 +200,15 @@ container.addEventListener('mousedown', (e) => {
     e.preventDefault();
     mouseDown = true;
     if (e.target.classList[0] == "square" && mouseDown) {
-        console.log('mouse button down')
         e.target.style.backgroundColor = selectedColor;
     }
 })
 
-document.addEventListener('mouseup', () => {
-    mouseDown = false;
-    if (!mouseDown) {
-        console.log('mouse button up');
-    }
-})
+document.addEventListener('mouseup', () => mouseDown = false)
 
 
 document.addEventListener('mouseover', (e) => {
-    // console.dir(e.target)
     if (e.target.classList[0] == "square" && mouseDown) {
-        console.log('yes');
         e.target.style.backgroundColor = selectedColor;
     }
 })
