@@ -9,110 +9,28 @@ const setSize = document.querySelector('.setSize')
 const eraser = document.querySelector('.eraser');
 const currentSize = document.querySelector('.currentSize');
 const random = document.querySelector('.random')
-// const hover = (item) => {
-
-
-//     // item.addEventListener('mousedown', () => {
-//     //     console.log('hi');
-//     //     item.style.backgroundColor = 'black';
-//     // })
-//     let mouseDown = 0;
-//     item.addEventListener('mousedown', (e) => {
-//         e.preventDefault();
-//         mouseDown = true
-//         if (mouseDown) {
-//             console.log(e)
-//             console.log('mouse button down')
-//             item.style.backgroundColor = 'black';
-//         }
-//     })
-
-//     item.addEventListener('mouseup', () => {
-//         mouseDown = false;
-//         if (!mouseDown) {
-//             console.log('mouse button up')
-//         }
-//     })
-// }
 
 
 const hex = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'C', 'D', 'E', 'F'];
 let selectedColor = 'black';
 
-// const genRandomColor = (el) => {
-//     let hexColor = '#'
-//     for (let i = 0; i < 6; i++) {
-//         const index = Math.floor(Math.random() * hex.length)
-//         hexColor += hex[index];
-
-//     }
-//     console.log(hexColor)
-//     el = hexColor
-// }
 
 
+const updateColor = (color) => {
+    selectedColor = color
+    colorPicker.value = color
+    console.log('hello')
+}
 
-colorPicker.addEventListener('input', () => {
-    console.dir(colorPicker);
-    selectedColor = colorPicker.value;
-})
-
-black.addEventListener('click', () => {
-    selectedColor = 'black';
-    colorPicker.value = '#000000';
-    // addBorder(black)
-
-})
-
-eraser.addEventListener('click', () => {
-    selectedColor = 'white';
-    colorPicker.value = '#ffffff';
-})
-
-random.addEventListener('click', () => {
-    let hexColor = '#'
-    for (let i = 0; i < 6; i++) {
-        const index = Math.floor(Math.random() * hex.length)
-        hexColor += hex[index];
-    }
-    console.log(hexColor)
-    colorPicker.value = hexColor;
-    selectedColor = hexColor;
-})
-
-
-reset.addEventListener('click', () => {
-    // selectedColor = 'black';
-    container.replaceChildren();
-    // colorPicker.value = '#000000';
-    if (!sizeInp.value) {
-        return squareGen()
-
-    }
-    // else if (sizeInp.value > 100 || !Number.isInteger(sizeInp.value)) {
-    //     alert('Please enter a valid number below 100');
-    //     return squareGen()
-    // }
-    squareGen(sizeInp.value);
-    // currentSize.innerHTML = sizeInp.value;
-})
-
-setSize.addEventListener('click', () => {
+const restartBoard = () => {
     container.replaceChildren();
     if (!sizeInp.value) {
         return squareGen();
     }
     squareGen(sizeInp.value);
-    // currentSize.innerHTML = sizeInp.value;
-})
-
-// const addBorder = (el) => {
-//     el.style.border = true
-// }
-
+}
 
 const squareGen = (num = 50) => {
-
     num = parseInt(num);
     currentSize.innerHTML = `${num}`
     if (num > 100 || !Number.isInteger(num)) {
@@ -128,29 +46,48 @@ const squareGen = (num = 50) => {
         for (let i = 0; i < num; i++) {
             const square = document.createElement('div');
             square.classList.add('square');
-            // hover(square);
             column.append(square);
         }
         container.append(column);
     }
 }
 
-
-
 squareGen();
+colorPicker.addEventListener('input', () => updateColor(colorPicker.value));
+black.addEventListener('click', () => updateColor('#000000'));
+eraser.addEventListener('click', () => updateColor('#ffffff'));
+reset.addEventListener('click', () => restartBoard());
+setSize.addEventListener('click', () => restartBoard());
+
+random.addEventListener('click', () => {
+    let hexColor = '#'
+    for (let i = 0; i < 6; i++) {
+        const index = Math.floor(Math.random() * hex.length)
+        hexColor += hex[index];
+    }
+    console.log(hexColor)
+    colorPicker.value = hexColor;
+    selectedColor = hexColor;
+})
 
 
-// for (let i = 0; i < 20; i++) {
-//     const column = document.createElement('div');
-//     column.classList.add('sections');
-//     for (let i = 0; i < 20; i++) {
-//         const square = document.createElement('div');
-//         square.classList.add('square');
-//         // hover(square);
-//         column.append(square);
-//     }
-//     container.append(column);
-// }
+let mouseDown = false;
+container.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    mouseDown = true;
+    if (e.target.classList[0] == "square" && mouseDown) {
+        e.target.style.backgroundColor = selectedColor;
+    }
+})
+
+document.addEventListener('pointerup', () => mouseDown = false)
+
+
+document.addEventListener('pointerover', (e) => {
+    if (e.target.classList[0] == "square" && mouseDown) {
+        e.target.style.backgroundColor = selectedColor;
+    }
+})
 
 
 // start.addEventListener('click', () => {
@@ -163,52 +100,12 @@ squareGen();
 //     squareGen(choice)
 // })
 
-
-
-
-
-// for (let i = 0; i < 8; i++) {
-//     const column = document.createElement('div');
-//     for (let i = 0; i < 8; i++) {
-//         const square = document.createElement('div');
-//         square.classList.add('square');
-//         hover(square);
-//         column.append(square);
+// const genRandomColor = (el) => {
+//     let hexColor = '#'
+//     for (let i = 0; i < 6; i++) {
+//         const index = Math.floor(Math.random() * hex.length)
+//         hexColor += hex[index];
 //     }
-//     container.append(column);
+//     console.log(hexColor)
+//     el = hexColor
 // }
-
-
-// pd = false;
-// document.addEventListener('pointerdown', (e) => {
-//     pd = true;
-//     console.log(e)
-//     if (pd) {
-//         let pd = document.addEventListener('pointermove', () => {
-//             console.log(e)
-//             document.addEventListener('pointerup', () => {
-//                 pd = false;
-
-//             })
-//         })
-//     }
-// })
-
-
-let mouseDown = false;
-container.addEventListener('mousedown', (e) => {
-    e.preventDefault();
-    mouseDown = true;
-    if (e.target.classList[0] == "square" && mouseDown) {
-        e.target.style.backgroundColor = selectedColor;
-    }
-})
-
-document.addEventListener('mouseup', () => mouseDown = false)
-
-
-document.addEventListener('mouseover', (e) => {
-    if (e.target.classList[0] == "square" && mouseDown) {
-        e.target.style.backgroundColor = selectedColor;
-    }
-})
