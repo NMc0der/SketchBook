@@ -8,6 +8,7 @@ const sizeInp = document.querySelector('.sizeInp');
 const setSize = document.querySelector('.setSize')
 const eraser = document.querySelector('.eraser');
 const currentSize = document.querySelector('.currentSize');
+const random = document.querySelector('.random')
 // const hover = (item) => {
 
 
@@ -33,27 +34,57 @@ const currentSize = document.querySelector('.currentSize');
 //         }
 //     })
 // }
+
+
+const hex = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'C', 'D', 'E', 'F'];
 let selectedColor = 'black';
 
+// const genRandomColor = (el) => {
+//     let hexColor = '#'
+//     for (let i = 0; i < 6; i++) {
+//         const index = Math.floor(Math.random() * hex.length)
+//         hexColor += hex[index];
+
+//     }
+//     console.log(hexColor)
+//     el = hexColor
+// }
+
+
+
 colorPicker.addEventListener('input', () => {
-    console.log(colorPicker.value);
+    console.dir(colorPicker);
     selectedColor = colorPicker.value;
 })
 
 black.addEventListener('click', () => {
     selectedColor = 'black';
     colorPicker.value = '#000000';
+    // addBorder(black)
+
 })
 
 eraser.addEventListener('click', () => {
     selectedColor = 'white';
+    colorPicker.value = '#ffffff';
+})
+
+random.addEventListener('click', () => {
+    let hexColor = '#'
+    for (let i = 0; i < 6; i++) {
+        const index = Math.floor(Math.random() * hex.length)
+        hexColor += hex[index];
+    }
+    console.log(hexColor)
+    colorPicker.value = hexColor;
+    selectedColor = hexColor;
 })
 
 
 reset.addEventListener('click', () => {
-    selectedColor = 'black';
+    // selectedColor = 'black';
     container.replaceChildren();
-    colorPicker.value = '#000000';
+    // colorPicker.value = '#000000';
     if (!sizeInp.value) {
         return squareGen()
 
@@ -75,7 +106,9 @@ setSize.addEventListener('click', () => {
     // currentSize.innerHTML = sizeInp.value;
 })
 
-
+// const addBorder = (el) => {
+//     el.style.border = true
+// }
 
 
 const squareGen = (num = 20) => {
